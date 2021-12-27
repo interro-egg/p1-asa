@@ -8,16 +8,28 @@ typedef struct item {
 } item;
 
 // chama com fun(piles, piles.size() - 1, inf OU primeiro da ultima pile)
-long long fun(std::vector<std::vector<item>> piles, long long pile_i, long long last)
+long long fun(std::vector<std::vector<item>> piles, long long pile_i, std::vector<long long> so_far)
 {
 	long long sum = 0;
-	if (pile_i == 0) {
-		return 1;
-	}
-	for (int i = 0; i < piles[pile_i].size(); i++) {
-		if (piles[pile_i][i].value > last)
+	// if (pile_i == 0) {
+	// 	std::cout << "<(leaf), ";
+	// 	for (long long i = 0; i < so_far.size(); i++) {
+	// 		std::cout << so_far[i] << ", ";
+	// 	}
+	// 	std::cout << ">\n";
+	// 	return piles[pile_i].size() - ;
+	// }
+	for (long long i = 0; i < piles[pile_i].size(); i++) {
+		if (so_far.size() != 0 && piles[pile_i][i].value > so_far[0])
 			continue;
-		sum += fun(piles, pile_i - 1, piles[pile_i][i].value);
+		if (pile_i == 0) {
+			return piles[0].size() - i;
+		}
+		std::vector<long long> new_so_far = {piles[pile_i][i].value};
+		for (long long j = 0; j < so_far.size(); j++) {
+			new_so_far.push_back(so_far[j]);
+		}
+		sum += fun(piles, pile_i - 1, new_so_far);
 	}
 	return sum;
 }
@@ -43,7 +55,7 @@ std::string problem1()
 		}
 	}
 	std::cout << piles.size() << std::endl;
-	std::cout << fun(piles, piles.size() - 1, piles.back()[0].value) << std::endl;
+	std::cout << fun(piles, piles.size() - 1, {} /*piles.back()[0].value*/) << std::endl;
 	return "what";
 }
 
