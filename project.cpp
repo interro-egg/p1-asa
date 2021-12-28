@@ -52,8 +52,7 @@ std::string problem1()
 
 std::string problem2()
 {
-	std::string s = "Hello World!";
-	return s;
+	return "Not implemented";
 }
 
 int main()
