@@ -7,7 +7,9 @@ typedef struct item {
 	long long prev; //prev is the index of the previous item on the previous pile
 } item;
 
-// chama com fun(piles, piles.size() - 1, primeiro da ultima pile)
+// call this with: fun(piles, piles.size() - 1, piles.back().front())
+//! THIS IS WRONG!: it counts the leaves in the piles graph WITH NO REGARD for the
+//! order of the actual input array
 long long fun(std::vector<std::vector<item>> piles, long long pile_i, item caller)
 {
 	long long sum = 0;
@@ -44,7 +46,7 @@ std::string problem1()
 		}
 	}
 	std::cout << piles.size() << std::endl;
-	std::cout << fun(piles, piles.size() - 1, piles.back()[0]) << std::endl;
+	std::cout << fun(piles, piles.size() - 1, piles.back().front()) << std::endl;
 	return "what";
 }
 
