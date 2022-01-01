@@ -34,22 +34,20 @@ std::string problem1()
 	int number;
 
 	while (std::cin >> number) {
-
 		std::vector<long long>::iterator up = std::upper_bound(lastItems.begin(), lastItems.end(), number);
 		std::size_t i = up - lastItems.begin();
-		std::cout << "i for " << number << " is " << i << " (num piles = " << lastItems.size() << ")" << std::endl;
-		if (!lastItems.empty() && (up != lastItems.end() || lastItems.back() >= number)) {
-			// add to 'up' pile
-			long long prev = i > 0 ? piles[i - 1].size() - 1 : -1;
-			piles[i].push_back({number, prev});
-			lastItems[i] = number;
-		} else {
+		if (lastItems.empty() || (up == lastItems.end() && lastItems.back() < number)) { //number is bigger than all lastItems
 			// create new pile
-			if (!lastItems.empty())
-				i++;
 			long long prev = i > 0 ? piles[i - 1].size() - 1 : -1;
 			piles.push_back({{number, prev}});
 			lastItems.push_back(number);
+		} else {
+			// add to 'up' pile
+			if (up == lastItems.end()) // number is equal to lastItems.back() (previous if statement failed so this is the only option)
+				i--;
+			long long prev = i > 0 ? piles[i - 1].size() - 1 : -1;
+			piles[i].push_back({number, prev});
+			lastItems[i] = number;
 		}
 	}
 	for (auto pile : piles) {
