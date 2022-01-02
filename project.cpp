@@ -33,7 +33,7 @@ long long get_sum(std::vector<std::vector<item>> piles, std::size_t i, long long
 		return (piles.empty() ? 0 : piles[0].back().sum) + 1;
 	}
 	// vv wouldn't work because end() > begin() and can't compare item directly
-	//std::vector<long long>::iterator lo = std::lower_bound(piles[i].end(), piles[i].begin(), newItem);
+	// std::vector<long long>::iterator lo = std::lower_bound(piles[i].end(), piles[i].begin(), newItem);
 	long long lo_i = reverse_binary_search(piles[i - 1], 0, piles[i - 1].size() - 1, newNum);
 	long long gteSum = lo_i == -1 ? 0 : piles[i - 1][lo_i].sum;
 	long long topSum = i + 1 <= piles.size() ? piles[i].back().sum : 0;
@@ -49,15 +49,15 @@ std::string problem1()
 	while (std::cin >> number) {
 		std::vector<long long>::iterator up = std::upper_bound(lastItems.begin(), lastItems.end(), number);
 		std::size_t i = up - lastItems.begin();
-		if (lastItems.empty() || (up == lastItems.end() && lastItems.back() < number)) { //number is bigger than all lastItems
+		if (lastItems.empty() || (up == lastItems.end() && lastItems.back() < number)) { // number is bigger than all lastItems
 			// create new pile
 			long long prev = i > 0 ? piles[i - 1].size() - 1 : -1;
 			piles.push_back({{number, prev, get_sum(piles, i, number)}});
 			lastItems.push_back(number);
 		} else {
 			// add to 'up' pile
-			if (up == lastItems.end()) // number is equal to lastItems.back() (previous if statement failed so this is the only option)
-				i--;
+			if (up == lastItems.end() || lastItems[i - 1] == number) // number is equal to lastItems.back() (previous if statement failed so this is the only option)
+				i--;												 // upper_bound returns the first element that is greater than number, so we need to check if previous pile's top is equal than number
 			long long prev = i > 0 ? piles[i - 1].size() - 1 : -1;
 			piles[i].push_back({number, prev, get_sum(piles, i, number)});
 			lastItems[i] = number;
