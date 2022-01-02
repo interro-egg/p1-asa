@@ -85,10 +85,10 @@ int main()
 	std::cin >> problem;
 	switch (problem) {
 	case 1:
-		std::cout << problem1() << std::endl;
+		std::cout << problem1();
 		break;
 	case 2:
-		std::cout << problem2() << std::endl;
+		std::cout << problem2();
 		break;
 	default:
 		std::cout << "Invalid problem number" << std::endl;
