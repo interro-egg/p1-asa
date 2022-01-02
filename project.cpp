@@ -6,24 +6,38 @@
 typedef struct item {
 	long long value;
 	long long prev; // prev is the index of the previous item on the previous pile
+	long long sum;
 } item;
 
-// call this with: fun(piles, piles.size() - 1, piles.back().front())
-//! THIS IS WRONG!: it counts the leaves in the piles graph WITH NO REGARD for the
-//! order of the actual input array
-long long fun(std::vector<std::vector<item>> piles, long long pile_i, item caller)
+// Returns the index (starting from the end) of the first item whose value is greater than or equal to newItem's value, or -1 if none is found
+std::size_t reverse_binary_search(std::vector<item> pile, std::size_t start, std::size_t end, long long newNum)
 {
-	long long sum = 0;
-	for (long long i = 0; i < piles[pile_i].size(); i++) {
-		if (piles[pile_i][i].value > caller.value) {
-			continue;
-		}
-		if (pile_i == 0) {
-			return piles[0].size() - i;
-		}
-		sum += fun(piles, pile_i - 1, piles[pile_i][i]);
+	if (pile[start].value < newNum) {
+		return -1;
 	}
-	return sum;
+	std::size_t mid = (start + end) / 2;
+	while (start < end && mid > start) {
+		if (pile[mid].value >= newNum) {
+			start = mid;
+		} else {
+			end = mid - 1;
+		}
+		mid = (start + end) / 2;
+	}
+	return start;
+}
+
+long long get_sum(std::vector<std::vector<item>> piles, std::size_t i, long long newNum)
+{
+	if (i == 0) {
+		return (piles.empty() ? 0 : piles[0].back().sum) + 1;
+	}
+	// vv wouldn't work because end() > begin() and can't compare item directly
+	//std::vector<long long>::iterator lo = std::lower_bound(piles[i].end(), piles[i].begin(), newItem);
+	std::size_t lo_i = reverse_binary_search(piles[i - 1], 0, piles[i - 1].size() - 1, newNum);
+	long long gteSum = lo_i == -1 ? 0 : piles[i - 1][lo_i].sum;
+	long long topSum = i + 1 <= piles.size() ? piles[i].back().sum : 0;
+	return piles[i - 1].back().sum - gteSum + topSum;
 }
 
 std::string problem1()
@@ -31,7 +45,7 @@ std::string problem1()
 	std::vector<std::vector<item>> piles;
 	std::vector<long long> lastItems;
 	char c;
-	int number;
+	long long number, sum;
 
 	while (std::cin >> number) {
 		std::vector<long long>::iterator up = std::upper_bound(lastItems.begin(), lastItems.end(), number);
@@ -39,28 +53,26 @@ std::string problem1()
 		if (lastItems.empty() || (up == lastItems.end() && lastItems.back() < number)) { //number is bigger than all lastItems
 			// create new pile
 			long long prev = i > 0 ? piles[i - 1].size() - 1 : -1;
-			piles.push_back({{number, prev}});
+			piles.push_back({{number, prev, get_sum(piles, i, number)}});
 			lastItems.push_back(number);
 		} else {
 			// add to 'up' pile
 			if (up == lastItems.end()) // number is equal to lastItems.back() (previous if statement failed so this is the only option)
 				i--;
 			long long prev = i > 0 ? piles[i - 1].size() - 1 : -1;
-			piles[i].push_back({number, prev});
+			piles[i].push_back({number, prev, get_sum(piles, i, number)});
 			lastItems[i] = number;
 		}
 	}
-	for (auto pile : piles) {
-		std::cout << "Pile: ";
-		for (auto item : pile) {
-			std::cout << item.value << " ";
-		}
-		std::cout << std::endl;
-	}
+	// for (auto pile : piles) {
+	// 	std::cout << "Pile: ";
+	// 	for (auto item : pile) {
+	// 		std::cout << "[ " << item.value << " (sum=" << item.sum << ")] ";
+	// 	}
+	// 	std::cout << std::endl;
+	// }
 
-	std::cout << piles.size() << std::endl;
-	std::cout << fun(piles, piles.size() - 1, piles.back().front()) << std::endl;
-	return "what";
+	return std::to_string(piles.size()) + ' ' + std::to_string(piles.back().back().sum) + '\n';
 }
 
 std::string problem2()
