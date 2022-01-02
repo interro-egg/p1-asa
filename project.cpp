@@ -10,7 +10,7 @@ typedef struct item {
 } item;
 
 // Returns the index (starting from the end) of the first item whose value is greater than or equal to newItem's value, or -1 if none is found
-std::size_t reverse_binary_search(std::vector<item> pile, std::size_t start, std::size_t end, long long newNum)
+long long reverse_binary_search(std::vector<item> pile, std::size_t start, std::size_t end, long long newNum)
 {
 	if (pile[start].value < newNum) {
 		return -1;
@@ -34,7 +34,7 @@ long long get_sum(std::vector<std::vector<item>> piles, std::size_t i, long long
 	}
 	// vv wouldn't work because end() > begin() and can't compare item directly
 	//std::vector<long long>::iterator lo = std::lower_bound(piles[i].end(), piles[i].begin(), newItem);
-	std::size_t lo_i = reverse_binary_search(piles[i - 1], 0, piles[i - 1].size() - 1, newNum);
+	long long lo_i = reverse_binary_search(piles[i - 1], 0, piles[i - 1].size() - 1, newNum);
 	long long gteSum = lo_i == -1 ? 0 : piles[i - 1][lo_i].sum;
 	long long topSum = i + 1 <= piles.size() ? piles[i].back().sum : 0;
 	return piles[i - 1].back().sum - gteSum + topSum;
@@ -44,8 +44,7 @@ std::string problem1()
 {
 	std::vector<std::vector<item>> piles;
 	std::vector<long long> lastItems;
-	char c;
-	long long number, sum;
+	long long number;
 
 	while (std::cin >> number) {
 		std::vector<long long>::iterator up = std::upper_bound(lastItems.begin(), lastItems.end(), number);
