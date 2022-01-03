@@ -3,14 +3,14 @@
 #include <string>
 #include <vector>
 
-typedef struct item {
+typedef struct p1_item { // problem 1 item
 	long long value;
 	long long prev; // prev is the index of the previous item on the previous pile
 	long long sum;
-} item;
+} p1_item;
 
 // Returns the index (starting from the end) of the first item whose value is greater than or equal to newItem's value, or -1 if none is found
-long long reverse_binary_search(std::vector<item> &pile, std::size_t start, std::size_t end, long long newNum)
+long long reverse_binary_search(std::vector<p1_item> &pile, std::size_t start, std::size_t end, long long newNum)
 {
 	if (pile[start].value < newNum) {
 		return -1;
@@ -27,7 +27,7 @@ long long reverse_binary_search(std::vector<item> &pile, std::size_t start, std:
 	return start;
 }
 
-long long get_sum(std::vector<std::vector<item>> &piles, std::size_t i, long long newNum)
+long long get_sum(std::vector<std::vector<p1_item>> &piles, std::size_t i, long long newNum)
 {
 	if (i == 0) {
 		return (piles.empty() ? 0 : piles[0].back().sum) + 1;
@@ -42,7 +42,7 @@ long long get_sum(std::vector<std::vector<item>> &piles, std::size_t i, long lon
 
 std::string problem1()
 {
-	std::vector<std::vector<item>> piles;
+	std::vector<std::vector<p1_item>> piles;
 	std::vector<long long> lastItems;
 	long long number;
 
@@ -65,8 +65,8 @@ std::string problem1()
 	}
 	// for (auto pile : piles) {
 	// 	std::cout << "Pile: ";
-	// 	for (auto item : pile) {
-	// 		std::cout << "[ " << item.value << " (sum=" << item.sum << ")] ";
+	// 	for (auto p1_item : pile) {
+	// 		std::cout << "[ " << p1_item.value << " (sum=" << p1_item.sum << ")] ";
 	// 	}
 	// 	std::cout << std::endl;
 	// }
