@@ -10,7 +10,7 @@ typedef struct item {
 } item;
 
 // Returns the index (starting from the end) of the first item whose value is greater than or equal to newItem's value, or -1 if none is found
-long long reverse_binary_search(std::vector<item> pile, std::size_t start, std::size_t end, long long newNum)
+long long reverse_binary_search(std::vector<item> &pile, std::size_t start, std::size_t end, long long newNum)
 {
 	if (pile[start].value < newNum) {
 		return -1;
@@ -27,7 +27,7 @@ long long reverse_binary_search(std::vector<item> pile, std::size_t start, std::
 	return start;
 }
 
-long long get_sum(std::vector<std::vector<item>> piles, std::size_t i, long long newNum)
+long long get_sum(std::vector<std::vector<item>> &piles, std::size_t i, long long newNum)
 {
 	if (i == 0) {
 		return (piles.empty() ? 0 : piles[0].back().sum) + 1;
