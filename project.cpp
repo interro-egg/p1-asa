@@ -3,12 +3,12 @@
 
 std::string problem1()
 {
-	return "Not implemented";
+	return "Not implemented\n";
 }
 
 std::string problem2()
 {
-	return "Not implemented";
+	return "Not implemented\n";
 }
 
 int main()
@@ -17,10 +17,10 @@ int main()
 	std::cin >> problem;
 	switch (problem) {
 	case 1:
-		std::cout << problem1() << std::endl;
+		std::cout << problem1();
 		break;
 	case 2:
-		std::cout << problem2() << std::endl;
+		std::cout << problem2();
 		break;
 	default:
 		std::cout << "Invalid problem number" << std::endl;
