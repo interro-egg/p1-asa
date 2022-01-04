@@ -58,8 +58,8 @@ std::string problem1()
 			lastItems.push_back(number);
 		} else {
 			// add to 'up' pile
-			if (up == lastItems.end() || lastItems[i - 1] == number) // number is equal to lastItems.back() (previous if statement failed so this is the only option)
-				i--;												 // upper_bound returns the first element that is greater than number, so we need to check if previous pile's top is equal than number
+			if (up == lastItems.end() || (i > 0 && lastItems[i - 1] == number)) // number is equal to lastItems.back() (previous if statement failed so this is the only option)
+				i--;															// upper_bound returns the first element that is greater than number, so we need to check if previous pile's top is equal than number
 			long long prev = i > 0 ? piles[i - 1].size() - 1 : -1;
 			piles[i].push_back({number, prev, get_sum(piles, i, number)});
 			lastItems[i] = number;
