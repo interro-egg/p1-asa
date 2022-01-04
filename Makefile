@@ -5,7 +5,7 @@ FLAGS := -std=c++11 -O3 -Wall -lm
 compile: project
 
 project: project.cpp
-	g++ project.cpp -o project $(CPPFLAGS) $(LDFLAGS)
+	g++ project.cpp -o project $(FLAGS)
 
 run: compile
 	./project
