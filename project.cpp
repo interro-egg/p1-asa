@@ -18,7 +18,14 @@ long long reverse_binary_search(std::vector<p1_item> &pile, std::size_t start, s
 		return -1;
 	}
 	std::size_t mid = (start + end) / 2;
-	while (start < end && mid > start) {
+	while (start < end) {
+		if (mid == start && end > start) {
+			if (pile[end].value >= newNum) {
+				return end;
+			} else {
+				return start;
+			}
+		}
 		if (pile[mid].value >= newNum) {
 			start = mid;
 		} else {
