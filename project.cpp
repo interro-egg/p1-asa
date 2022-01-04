@@ -72,13 +72,6 @@ std::string problem1()
 			lastItems[i] = number;
 		}
 	}
-	// for (auto pile : piles) {
-	// 	std::cout << "Pile: ";
-	// 	for (auto p1_item : pile) {
-	// 		std::cout << "[ " << p1_item.value << " (sum=" << p1_item.sum << ")] ";
-	// 	}
-	// 	std::cout << std::endl;
-	// }
 
 	return std::to_string(piles.size()) + ' ' + std::to_string(piles.back().back().sum) + '\n';
 }
