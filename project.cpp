@@ -35,9 +35,9 @@ std::string problem2()
 
 	std::vector<long long> tracker(y.size(), 0); // O(n)
 
-	for (long long i = 0; i < x.size(); i++) {
+	for (std::size_t i = 0; i < x.size(); i++) {
 		maxSize = 0;
-		for (long long j = 0; j < y.size(); j++) {
+		for (std::size_t j = 0; j < y.size(); j++) {
 			if (x[i] > y[j]) {
 				maxSize = std::max(tracker[j], maxSize);
 			} else if (x[i] == y[j]) {
