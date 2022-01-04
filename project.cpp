@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 std::string problem1()
@@ -13,6 +14,7 @@ std::string problem2()
 	std::vector<std::vector<long long>> matrix;
 	std::vector<long long> x, y;
 	std::string xStr, yStr;
+	std::unordered_map<long long, bool> map;
 	long long number, maxSize, max = 0;
 
 	std::getline(std::cin, xStr);
@@ -22,10 +24,13 @@ std::string problem2()
 
 	while (xSs >> number) {
 		x.push_back(number);
+		map[number] = true;
 	}
 
 	while (ySs >> number) {
-		y.push_back(number);
+		if (map[number]) {
+			y.push_back(number);
+		}
 	}
 
 	std::vector<long long> tracker(y.size(), 0); // O(n)
