@@ -3,13 +3,13 @@
 cd "${0%/*}" # go to script directory
 set -e # exit if any command fails
 
-csv="$1"
+CSV="$1"
 
-if [ "$csv" = "" ]; then
-	csv="prob1-$(date +%s).csv"
+if [ "$CSV" = "" ]; then
+	CSV="prob1-$(date +%s).csv"
 fi
 
-echo "n,command,mean,stddev,median,user,system,min,max" > $csv
+echo "n,command,mean,stddev,median,user,system,min,max" > $CSV
 
 test() {
 	echo "Testing with n = $1"
@@ -17,8 +17,8 @@ test() {
 	echo "1" > in.txt
 	echo "$VEC" >> in.txt
 	hyperfine "../project < in.txt" --warmup 10 --export-csv tmp.csv &>/dev/null
-	echo -n $1, >> $csv
-	grep ./project tmp.csv >> $csv # remove header
+	echo -n $1, >> $CSV
+	grep ./project tmp.csv >> $CSV # remove header
 }
 
 for i in {10..99..1}; do
