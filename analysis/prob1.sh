@@ -3,10 +3,14 @@
 cd "${0%/*}" # go to script directory
 set -e # exit if any command fails
 
-CSV="$1"
+CSV="${1:-prob1-$(date +%s).csv}" # arg 1 with default value
+EXE="${2:-../project}" # arg 2 with default value
 
-if [ "$CSV" = "" ]; then
-	CSV="prob1-$(date +%s).csv"
+
+if [ ! -f "$EXE" ]; then
+	echo "Executable (arg #2, defaults to ../project) does not exist!"
+	echo -e "\tFile '$EXE' not found"
+	exit 1
 fi
 
 echo "n,command,mean,stddev,median,user,system,min,max" > $CSV
@@ -16,7 +20,7 @@ test() {
 	local VEC=$(python gen_vector.py $1)
 	echo "1" > in.txt
 	echo "$VEC" >> in.txt
-	hyperfine "../project < in.txt" --warmup 10 --export-csv tmp.csv &>/dev/null
+	hyperfine "$EXE < in.txt" --warmup 10 --export-csv tmp.csv &>/dev/null
 	echo -n $1, >> $CSV
 	grep ./project tmp.csv >> $CSV # remove header
 }
