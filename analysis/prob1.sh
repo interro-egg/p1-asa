@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# you probably want to call this with `time ./prob1.sh [custom_results_csv] [custom_exe] && date`
+
 cd "${0%/*}" # go to script directory
 set -e # exit if any command fails
 
@@ -41,4 +43,10 @@ for i in {10000..99999..1000}; do
 	test $i
 done
 
-test 100000
+for i in {100000..999999..10000}; do
+    test $i
+done
+
+for i in {1000000..10000000..100000}; do
+    test $i
+done
